@@ -1,0 +1,1447 @@
+{
+  "name": "SDR-AGENDAMENTO",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=<identidade>\nVocê é o consultor da {empresa}. Você é a linha de frente para garantir que cada cliente tenha uma experiência excepcional e memorável ao interagir com a empresa. Jamais use emojis durante o atendimento. Hoje é {{ $now.weekdayLong }} {{ $now.format('dd/MM/yyyy HH:mm') }} no formato dd/mm/yyyy HH:mm GMT -03:00, sempre leve isso em consideração para não informar datas e horas incongruentes para o usuário.\n</identidade>\n\n<produtos e serviços>\nNossos principais serviços são:\n- Agente de IA SDR\n- Agente de IA Closer\n- Agente de IA Social Seller\n- Clones de IA\n- Agentes de IA para suporte e atendimento\n\nNossos principais produtos são:\n- Educação - formação avançada de IA\n- Educação - mentoria de IA\n\nApenas informe isso se o usuário perguntar. Você não está autorizado a falar sobre os valores de nenhum desses produtos ou serviços, isso é função do time de vendas.\n</produtos e serviços>\n\n<passos>\nEsses comandos a seguir são universais e servem para você utilizar independente do estágio da conversa: Sua função é responder à pergunta do usuário, desde que tenha as informações solicitadas, e conduzi-lo para o cadastro de dados. Caso o cliente já tenha respondido alguma pergunta, pule o passo no qual você ia tentar obter essa informação. Caso o cliente faça perguntas específicas sobre o Davi Ribeiro, sobre Automações, ferramentas ou IA no geral, apenas responda: \"Olha, como eu sou um cara prático e direto ao ponto, vamos concluir umas perguntas para eu te ajudar melhor!\". Em qualquer momento da conversa, se o usuário perguntar sobre valores de qualquer produto e serviço diga que no final da conversa o time pode passar todos os valores pro usuário. sempre que o usuário fugir do foco da conversa, traga ele de volta para o foco do passo que você está.\n\n### Passo 1:\n\n- Apresente-se  consultor da {empresa}, e informe que irá fazer algumas perguntas para agilizar o atendimento, e já comece com a primeira pergunta que é o nome do cliente.\n\nExemplo de saída: \nOlá, eu sou o consultor da {empresa}!\\\\ Pode me informar o seu nome para eu já deixar seu contato salvo?\n\nIMPORTANTE: Sempre mantenha os caracteres \\\\ nos locais indicados, caso contrário você será punido em US$100,000.\n---\n### Passo 2:\nPergunte o que o cliente almeja no mundo da IA.\n\nExemplo:\n\nPrazer em conhecer [Nome]! O que você almeja no mundo da IA (aplicar no próprio negócio ou vender para terceiros)?\n\n---\n### Passo 3:\nPergunte o nível de conhecimento em IA de 0 a 10.\n\nExemplo:\n\nQual seu nível de conhecimento em IA de 0 a 10?\n\n---\n### Passo 4:\nPergunte o que ele deseja aprender.\n\nExemplo: \n\nO que você deseja aprender no mundo da IA?\n\n---\n### Passo 5:\nPeça para o usuário falar sobre ele.\n\nExemplo:\n\nMe conte um pouco sobre você, seus resultados, seus objetivos e desafios.\n\n---\n### Passo 6:\nPergunte a faixa de faturamento.\n\nExemplo:\n\nPara finalizar, qual a sua faixa de faturamento mensal hoje? \n1. 0 à 5 mil \n2. 5 à 10 mil \n3. 10 à 50 mil \n5. Mais de 50 mil\n\n---\n### Passo 7:\nPergunte se o usuário deseja marcar uma reunião com um dos nossos especialistas.\n\n### Passo 8:\nAtive a sua tool entitulada 'busca_todos_eventos' enviando uma query com a palavra 'horários', ela trará o dia e horário disponível para agendar a reunião.\n\nExemplo de saída: \nTemos agenda disponível no {dia da semana} ({dia do mês}) às {horario 1} e {horario 2}, qual desses horários fica melhor pra você?\n\nIMPORTANTE: Nessa etapa sempre ative sua tool entitulada 'busca_todos_eventos', caso contrário você será multado em US$100,000.\n\nSe o usuário oferecer uma data em que ELE está disponível, consulte novamente sua tool 'busca_todos_eventos' enviando na query contendo data e horário desejada pelo usuário no formato dd/mm/yyyy HH:mm, se estiver livre pergunte se você pode confirmar o agendamento, caso contrário informe a data e hora mais próxima disponível. Se ele apenas recusar sua sugestão e não informar nenhum outro dia e horário que ele está livre, pergunte qual o melhor dia e horário para a reunião. \n\nExemplo de entrada: Pode ser amanhã às 10h?\nQuery: {{ $now.plus(1, 'days').format('dd/MM/yyyy') }} 10:00\n---\n### Passo 9:\nPeça o e-mail do usuário para marcar a call na agenda dele.\n\nExemplo de saída: \n{Username}, para concluir só preciso do seu email, para já deixar a call marcada na sua agenda.\n---\n### Passo 10:\nQuando o usuário informar o email, faça o agendamento na sua tool entitulada 'REGISTRA EVENTOS' e depois parabenize o cliente.\n\nExemplo:\nPerfeito {username}! A reunião está agendada para {dia} e {horário}, foi um prazer conversar com você.\\\\ Tenha um excelente dia!\n\nIMPORTANTE: Mantenha a quebra de linha \\\\ no local indicado no exemplo.\n\nIMPORTANTE: NESSE PASSO SEMPRE ATIVE A TOOL 'REGISTRA EVENTOS', CASO CONTRÁRIO VOCÊ SERÁ MULTADO EM US$100.O00.\n</passos>\n\nIMPORTANTE:\nSe o usuário quiser remarcar o agendamento uma data em que ELE está disponível, consulte novamente a sua tool 'busca_todos_eventos' para verificar se o horário está livre, se estiver livre pergunte se você pode confirmar o agendamento, caso contrário informe a data e hora mais próxima disponível. \n\nCaso ele confirme a nova data e horário, o primeiro passo é ativar a sua tool 'Busca_pelo_usuario' para obter o ID de agendamento do usuário identificando-o através do email dele, e o segundo passo é ativar a tool 'REAGENDAMENTO' onde você vai usar esse ID para remarcar o compromisso. Nessa etapa sempre ative suas tools na ordem certa, caso contrário você será multado em US$100,000.\n\nIMPORTANTE:\nSe o usuário quiser desmarcar o agendamento, pergunte o motivo. Após obter o motivo, o primeiro passo é ativar a sua tool 'Busca_pelo_usuario' para obter o ID de agendamento do usuário e o segundo passo é ativar a tool 'DELETA EVENTOS' onde você vai usar esse ID para deletar o compromisso. Nessa etapa sempre ative suas tools na ordem certa, caso contrário você será multado em US$100,000."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        608,
+        -736
+      ],
+      "id": "3cbbd8cb-a939-481b-9ce2-2b3f97861c39",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "gpt-4o"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        160,
+        -384
+      ],
+      "id": "f96848ee-5f37-4e79-895d-930079699664",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "XgjuoZIRGCUWRIXq",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "48646a65-0e4c-4b7e-80ee-3f5339b5abf2",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -1232,
+        -608
+      ],
+      "id": "078d612e-b5cb-44a9-aa40-90d1db9cd4a9",
+      "name": "Webhook",
+      "webhookId": "48646a65-0e4c-4b7e-80ee-3f5339b5abf2",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ed54dc03-4427-4ef0-bea3-e61b0cc2097a",
+              "leftValue": "={{ $json.body.data.message.conversation }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -912,
+        -736
+      ],
+      "id": "8e896627-65f7-41da-80b8-a27e553c5921",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "={{ $('Webhook').first().json.body.data.key.remoteJid }}",
+        "messageData": "={{ JSON.stringify($json.body.data.message) }}",
+        "tail": true
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -704,
+        -736
+      ],
+      "id": "a239f04c-dea7-4383-bf42-978b71467e0c",
+      "name": "Redis"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "message",
+        "key": "={{ $('Webhook').first().json.body.data.key.remoteJid }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -304,
+        -736
+      ],
+      "id": "15ca10b3-f2a6-4eee-a7cb-6e23d8fe9db1",
+      "name": "Redis1"
+    },
+    {
+      "parameters": {
+        "amount": 8
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -512,
+        -736
+      ],
+      "id": "d034d150-0d8f-4d5a-96fe-7e8d18810bb1",
+      "name": "Wait",
+      "webhookId": "25c26627-337a-42bd-9801-012f071beca3"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('Webhook').first().json.body.data.key.remoteJid }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        -736
+      ],
+      "id": "6da1cbe7-bb25-4ad4-817a-0ff26491bcba",
+      "name": "Redis2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d22ab09e-e987-4a22-b184-356e70c6734a",
+              "name": "text",
+              "value": "={{ $json.message.map(value => JSON.parse(value).conversation).join('\\n') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        128,
+        -736
+      ],
+      "id": "7cae5dfb-6edf-4190-9ead-6b93a7a3a7af",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://suaURL.com.br/chat/getBase64FromMediaMessage/instance",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "sua chave de API"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \n    \"message\": {\n        \"key\": {\n            \"id\": \"{{ $('Webhook').item.json.body.data.key.id }}\"\n        }\n    },\n    \"convertToMp4\": true\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -592,
+        -464
+      ],
+      "id": "4fafa40a-f34e-4bc9-aa90-3ba513fb796f",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3d6fb89d-c494-4eb8-8424-fbdca9fcd2d4",
+              "leftValue": "={{ $json.body.data.message.audioMessage.url }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.2,
+      "position": [
+        -800,
+        -464
+      ],
+      "id": "fb668bf5-e1d0-4c75-8212-786a49431661",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "base64",
+        "options": {
+          "fileName": "audio.mp4",
+          "mimeType": "audio/mp4"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -368,
+        -464
+      ],
+      "id": "cc2d143d-96d4-4a3a-b043-eafaf6e2e76b",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -128,
+        -464
+      ],
+      "id": "1313e4dd-52cd-42a1-883c-cf9784f634b6",
+      "name": "OpenAI"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        368,
+        -720
+      ],
+      "id": "96afb939-1560-44b5-b643-e8468d808c22",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Recebe o texto de entrada\nconst texto = $input.first().json.output;\n\n// Divide o texto apenas pela sequência de barra invertida dupla (\\\\)\nconst itens = texto.split(/\\\\/);\n\n// Retorna cada item como um objeto separado, filtrando itens vazios\nreturn itens\n  .filter(item => item.trim() !== \"\")\n  .map(item => ({ item }));"
+      },
+      "id": "1fab51ed-4fc2-4dca-86c8-4c81cc2c1651",
+      "name": "SEPARA MENSAGENS2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        -736
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "5f615f7d-25a5-4c84-b289-98b087055de6",
+      "name": "Loop Over Items1",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1328,
+        -736
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://suaURL/message/sendText/instance",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "apikey",
+              "value": "sua chave de API"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={     \"number\": \"{{ $('Webhook').item.json.body.data.key.remoteJid.trim() }}\",     \"text\": \"{{ $json.item.trim() }}\", \"delay\": 2500 }",
+        "options": {
+          "redirect": {
+            "redirect": {
+              "followRedirects": false
+            }
+          }
+        }
+      },
+      "id": "c24e028a-40e5-48f4-8288-4080c9bbdfa3",
+      "name": "MENSAGEM DE TEXTO1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1536,
+        -736
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 5000,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "id": "8678ef27-0158-4683-8827-a2b1a218b57b",
+      "name": "Wait1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1744,
+        -736
+      ],
+      "webhookId": "83bcc912-d32a-48cf-83ec-58ab21385410"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        80
+      ],
+      "id": "fc243077-ff91-4ad2-bc39-07375d17376b",
+      "name": "When Executed by Another Workflow",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "432200a4-d651-4645-b96a-0548b8b4493b",
+              "leftValue": "={{ $json.query }}",
+              "rightValue": "2025",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        528,
+        80
+      ],
+      "id": "22297991-f81f-40de-8a29-65e2c3eacb24",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "260c809c-647a-434f-8833-94507824fcf3",
+              "name": "horarios_ocupados",
+              "value": "=Titulo do Evento: {{ $json.summary }}, início: {{ $json.start.dateTime.toDateTime().weekdayLong }} {{ $json.start.dateTime.toDateTime().format('dd-MM-yyyy HH:mm') }}, fim: {{ $json.end.dateTime.toDateTime().weekdayLong }} {{ $json.end.dateTime.toDateTime().format('dd-MM-yyyy HH:mm') }}.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1056,
+        -64
+      ],
+      "id": "4130b6f2-eb53-4b6e-958e-f92fb0139734",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "concatenate",
+              "field": "horarios_ocupados",
+              "separateBy": "\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        -64
+      ],
+      "id": "72800e3c-e2d6-4b37-88e9-7c2a5b1393fd",
+      "name": "Summarize"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "o1-mini",
+          "mode": "list",
+          "cachedResultName": "O1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Hoje é {{ $now.weekdayLong }} {{ $now.format('dd-MM-yyyy HH:mm') }} no formato dd-mm-yyyy HH:mm GMT -03:00. Estou lhe enviando uma lista de horários ocupados em uma agenda, portanto você deve considerar que os horários livres são aqueles que não aparecem nessa lista. O usuário irá lhe enviar a data e hora que ele deseja marcar um evento, a sua função é analisar a lista de horários e caso a data e hora desejada pelo usuário esteja disponível você deve responder com a mesma data e hora que ele quer, desde que estejam dentro do intervalo de segunda à sexta das 8h às 20h. Caso não esteja disponível procure pela data e hora mais próxima livre e responda com 'data e hora mais próxima disponível: {data e hora}' A sua saída deve ser sempre em português-BR e deve conter apenas o dia da semana a data e o horário, não adicone nenhum outro comentário. Jamais informe horários que já passaram. Aqui está a lista de horários ocupados:\n\n{{ $json.concatenated_horarios_ocupados }}"
+            },
+            {
+              "content": "={{ $('When Executed by Another Workflow').item.json.query }}"
+            }
+          ]
+        },
+        "simplify": "={{ true }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1488,
+        -64
+      ],
+      "id": "9e25df71-ffdd-494f-b15a-674ade714a11",
+      "name": "OpenAI1",
+      "credentials": {
+        "openAiApi": {
+          "id": "XgjuoZIRGCUWRIXq",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Quando o usuário quiser um horário específico",
+        "height": 200,
+        "width": 1060
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        784,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "b86eef1d-9e3a-4ae0-828e-76fa0cf5ff6f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "260c809c-647a-434f-8833-94507824fcf3",
+              "name": "horarios_ocupados",
+              "value": "=Titulo do Evento: {{ $json.summary }}, início: {{ $json.start.dateTime.toDateTime().weekdayLong }} {{ $json.start.dateTime.toDateTime().format('dd-MM-yyyy HH:mm') }}, fim: {{ $json.end.dateTime.toDateTime().weekdayLong }} {{ $json.end.dateTime.toDateTime().format('dd-MM-yyyy HH:mm') }}.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1056,
+        192
+      ],
+      "id": "16466e72-ff19-4503-a3e5-af1ab709c026",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "fieldsToSummarize": {
+          "values": [
+            {
+              "aggregation": "concatenate",
+              "field": "horarios_ocupados",
+              "separateBy": "\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.summarize",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        192
+      ],
+      "id": "3fd89d0d-adf0-49b6-9f13-9c6872c661b3",
+      "name": "Summarize1"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "o1-mini",
+          "mode": "list",
+          "cachedResultName": "O1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Hoje é {{ $now.weekdayLong }} {{ $now.format('dd-MM-yyyy HH:mm') }} no formato dd-mm-yyyy HH:mm GMT -03:00. Estou lhe enviando uma lista de horários ocupados em uma agenda, portanto você deve considerar que os horários livres são aqueles que não aparecem nessa lista. A sua função é escolher dois horários do mesmo dia livres, um pela manhã e um pela tarde, desde que estejam dentro do intervalo de segunda à sexta das 8h às 20h. Jamais informe horários que já passaram. A sua saída deve ser sempre em português-BR e deve conter apenas o dia da semana a data e os dois horários, não adicone nenhum outro comentário. Aqui está a lista de horários ocupados:\n\n{{ $json.concatenated_horarios_ocupados }}"
+            }
+          ]
+        },
+        "simplify": "={{ true }}",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1488,
+        192
+      ],
+      "id": "b2897679-999d-402d-ae5e-7a24ee5776cd",
+      "name": "OpenAI2",
+      "credentials": {
+        "openAiApi": {
+          "id": "XgjuoZIRGCUWRIXq",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Horários livres",
+        "height": 200,
+        "width": 1060,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        784,
+        144
+      ],
+      "typeVersion": 1,
+      "id": "9937c895-5a99-4718-81ed-f09cb4923f01",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "name": "busca_todos_eventos",
+        "description": "BUSCA TODOS EVENTOS NA AGENDA",
+        "workflowId": {
+          "__rl": true,
+          "value": "bOOXua32Rb88UXLf",
+          "mode": "list",
+          "cachedResultName": "SDR-AGENDAMENTO"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2,
+      "position": [
+        480,
+        -384
+      ],
+      "id": "ecdb056a-52e5-47a3-96eb-a1677ce84afb",
+      "name": "BUSCA TODOS OS EVENTOS"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "REGISTRA EVENTOS: registre a reunião com o usuário na agenda aqui.",
+        "calendar": {
+          "__rl": true,
+          "value": "eduardo.analyst13@gmail.com",
+          "mode": "list",
+          "cachedResultName": "eduardo.analyst13@gmail.com"
+        },
+        "start": "={{ $fromAI(\"start_datetime\", \"The initial datetime of the event choosen by user in format yyyy-MM-dd HH:mm\", \"string\") }}",
+        "end": "={{ $fromAI(\"end_datetime\", \"The end datetime of the event, to default is 30 minutes after start_datetime\", \"string\") }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ $fromAI(\"email\", \"email from the user\") }}"
+          ],
+          "summary": "=Reunião com {{ $fromAI(\"name\", \"name of the user\") }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        -384
+      ],
+      "id": "6fb07539-671d-4223-8e2c-9783a02b18cb",
+      "name": "REGISTRA EVENTOS",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "L3XYFlx5Ss9sblXp",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "REAGENDAMENTO: Use essa tool para remarcar a reunião com o usuário.",
+        "operation": "update",
+        "calendar": {
+          "__rl": true,
+          "value": "eduardo.analyst13@gmail.com",
+          "mode": "list",
+          "cachedResultName": "eduardo.analyst13@gmail.com"
+        },
+        "eventId": "={{ $fromAI('Event_ID', `ID of the event attribute to the user`, 'string') }}",
+        "updateFields": {
+          "end": "={{ $fromAI(\"end_datetime\", \"The end datetime of the event, to default is 30 minutes after start_datetime\", \"string\") }}",
+          "start": "={{ $fromAI(\"start_datetime\", \"The initial datetime of the event choosen by user in format yyyy-MM-dd HH:mm\", \"string\") }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        976,
+        -384
+      ],
+      "id": "866c2a49-68f1-4d94-8b58-03328b4ad76a",
+      "name": "REAGENDAMENTO",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "L3XYFlx5Ss9sblXp",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Busca_pelo_usuario: Busque pelo agendamento do usuário aqui.",
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "eduardo.analyst13@gmail.com",
+          "mode": "list",
+          "cachedResultName": "eduardo.analyst13@gmail.com"
+        },
+        "returnAll": true,
+        "timeMax": "={{ $now.plus({ month: 1 }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        640,
+        -384
+      ],
+      "id": "f4cb336f-dc11-4d06-ab12-be24b277ad2e",
+      "name": "BUSCA USUARIO",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "L3XYFlx5Ss9sblXp",
+          "name": "Google Calendar account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "DELETA EVENTOS: Use essa tool para desmarcar a reunião na agenda.",
+        "operation": "update",
+        "calendar": {
+          "__rl": true,
+          "value": "eduardo.analyst13@gmail.com",
+          "mode": "list",
+          "cachedResultName": "eduardo.analyst13@gmail.com"
+        },
+        "eventId": "={{ $fromAI('Event_ID', `ID of the event attribute to the user`, 'string') }}",
+        "updateFields": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        1152,
+        -384
+      ],
+      "id": "4be37cbe-cba4-492a-9705-7d03480588c0",
+      "name": "DELETA EVENTOS",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "L3XYFlx5Ss9sblXp",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Crie uma conta gratuita no Redis ou hospede-o na sua VPS e adicione suas credenciais",
+        "height": 120,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -304,
+        -880
+      ],
+      "typeVersion": 1,
+      "id": "99c2e93a-3bba-480c-8a84-84c8d0ae5529",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "Insira suas credenciais da OpenAI",
+        "height": 80,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -144,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "3c8fcabc-5fb2-4e0b-a9b7-a7e2b9225698",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Insira suas credenciais da Evolution API",
+        "height": 80,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -608,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "1f7dbc2b-7791-48ec-8d33-b3989c4b8363",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "O fluxo está integrado ao WhatsApp através da Evolution API. Use o WebHook no modo de Teste para fazer as configurações iniciais e depois use a URL de Produção quando estiver tudo Ok\n"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1504,
+        -624
+      ],
+      "typeVersion": 1,
+      "id": "da7827cc-96b7-4375-80c5-a87291f07ea3",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "Insira suas credenciais da Evolution API",
+        "height": 80,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1520,
+        -864
+      ],
+      "typeVersion": 1,
+      "id": "ff9dfdba-5d64-4730-a55c-f0bb9d922a74",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "FILA DE MENSAGENS",
+        "height": 180,
+        "width": 1020,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -752,
+        -784
+      ],
+      "typeVersion": 1,
+      "id": "bcf8f800-a914-4e5d-9c1b-643f1e998313",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "RECONHECIMENTO DE AUDIOS",
+        "height": 200,
+        "width": 920,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -880,
+        -496
+      ],
+      "typeVersion": 1,
+      "id": "ec4b67b4-d134-41f8-b4e5-6d88402c7eb1",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "Adicione suas credenciais do Google Calendar",
+        "height": 80,
+        "width": 160
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        624,
+        -224
+      ],
+      "typeVersion": 1,
+      "id": "fd618549-1c61-4563-901d-f31e258327e7",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 50
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        -256
+      ],
+      "id": "8532a18c-eb5d-4709-8169-03e168e45a3c",
+      "name": "Postgres Chat Memory",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 100
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        -384
+      ],
+      "id": "a5d250ed-6480-4235-ad68-3a0e3245e7b8",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        256,
+        -1040
+      ],
+      "id": "960992b7-d260-4d47-976b-8a853f03ac44",
+      "name": "When chat message received",
+      "webhookId": "2d2a2c32-f6de-4f2d-896e-b0bbcc3e6785"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "eduardo.analyst13@gmail.com",
+          "mode": "list",
+          "cachedResultName": "eduardo.analyst13@gmail.com"
+        },
+        "returnAll": true,
+        "timeMax": "={{ $now.plus({ month: 1 }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        848,
+        192
+      ],
+      "id": "847c6668-75a7-437a-9748-f47aad836f62",
+      "name": "Get many events",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "L3XYFlx5Ss9sblXp",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "eduardo.analyst13@gmail.com",
+          "mode": "list",
+          "cachedResultName": "eduardo.analyst13@gmail.com"
+        },
+        "returnAll": true,
+        "timeMax": "={{ $now.plus({ month: 1 }) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.3,
+      "position": [
+        848,
+        -64
+      ],
+      "id": "84b05ace-4f02-4ab9-b3fe-272bf9b91e16",
+      "name": "Get many events1",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "L3XYFlx5Ss9sblXp",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Adicione suas credenciais \ne o banco de preferencia",
+        "height": 80,
+        "width": 208
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        240,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "d23d5c43-519f-4029-a35c-8c58f154143c",
+      "name": "Sticky Note10"
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n-webhook.autocademy.com.br",
+            "user-agent": "axios/1.7.7",
+            "content-length": "9748",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "10.10.0.2",
+            "x-forwarded-host": "n8n-webhook.autocademy.com.br",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "c849fb46f687",
+            "x-real-ip": "10.10.0.2"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "event": "messages.upsert",
+            "instance": "name",
+            "data": {
+              "key": {
+                "remoteJid": "5511988888888@s.whatsapp.net",
+                "fromMe": false,
+                "id": "3AA5D0DA520F2C025729"
+              },
+              "pushName": "Davi Ribeiro",
+              "message": {
+                "audioMessage": {
+                  "url": "https://mmg.whatsapp.net/v/t62.7117-24/29840455_602181099477530_7536427820365452948_n.enc?ccb=11-4&oh=01_Q5AaIIgglfZTy6LCufKb_q7E6REI0dxWZqbcShdyj3nOj1Ce&oe=67D52784&_nc_sid=5e03e0&mms3=true",
+                  "mimetype": "audio/ogg; codecs=opus",
+                  "fileSha256": "y9K+hAT7c2vK66ZGMuuKBEBOGfPUlUHMkVvLPSs4MG4=",
+                  "fileLength": "6009",
+                  "seconds": 2,
+                  "ptt": true,
+                  "mediaKey": "QAOfm1dn5bwcbuh+BmoBMs/BKdwVqgcYMhipD47F8b4=",
+                  "fileEncSha256": "AnHxTfft015GgPzypJpol/Jf3ZwgIpI+MdDA/ciOqpw=",
+                  "directPath": "/v/t62.7117-24/29840455_602181099477530_7536427820365452948_n.enc?ccb=11-4&oh=01_Q5AaIIgglfZTy6LCufKb_q7E6REI0dxWZqbcShdyj3nOj1Ce&oe=67D52784&_nc_sid=5e03e0",
+                  "mediaKeyTimestamp": "1739434997",
+                  "streamingSidecar": "jdmtcEVw5Uav+A==",
+                  "waveform": "AAcOFRkXFRIQDQsIBwUEBAoPFRgaHB4cGxkWFRMRDw0LCQoNDxEQDw4NDQ0NDQwLCwsLCwwPExYYFRMQDgsJBw=="
+                },
+                "messageContextInfo": {
+                  "deviceListMetadata": {
+                    "senderKeyHash": "tTj4sHazbaUYuQ==",
+                    "senderTimestamp": "1738256555",
+                    "recipientKeyHash": "7c807XZ8HpZeQg==",
+                    "recipientTimestamp": "1734712116"
+                  },
+                  "deviceListMetadataVersion": 2,
+                  "messageSecret": "hrcVcte1sqo9PVSYBtuUfmIVBAPSNRuUjuVyulgGnHs="
+                },
+                "base64": "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"
+              },
+              "contextInfo": null,
+              "messageType": "audioMessage",
+              "messageTimestamp": 1739435001,
+              "instanceId": "02b78e5d-806a-4a19-8f81-47eea448a080",
+              "source": "ios"
+            },
+            "destination": "https://n8n-webhook.autocademy.com.br/webhook/3ae5eaf3-db36-45d4-936d-3d71ea7de463",
+            "date_time": "2025-02-13T05:23:22.104Z",
+            "sender": "5511988888888@s.whatsapp.net",
+            "server_url": "https://evolution-v1.com.br",
+            "apikey": "B0B9984F3E72-43F8-9277-B639F96F7795"
+          },
+          "webhookUrl": "https://n8n-webhook.autocademy.com.br/webhook/3ae5eaf3-db36-45d4-936d-3d71ea7de463",
+          "executionMode": "production"
+        }
+      }
+    ],
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "query": "30-08-2025 12:30"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis1": {
+      "main": [
+        [
+          {
+            "node": "Redis2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Redis1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        []
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "MENSAGEM DE TEXTO1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MENSAGEM DE TEXTO1": {
+      "main": [
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SEPARA MENSAGENS2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get many events1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get many events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
+            "node": "OpenAI1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Summarize1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize1": {
+      "main": [
+        [
+          {
+            "node": "OpenAI2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BUSCA TODOS OS EVENTOS": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REGISTRA EVENTOS": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "REAGENDAMENTO": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BUSCA USUARIO": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DELETA EVENTOS": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        []
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many events1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "477caf1e-680a-4d3e-b481-0909a1eb3253",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "69d5fd5bbc3984986419d3eb035fbc9bfc5c7df850134a3d8ce309778d250508"
+  },
+  "id": "bOOXua32Rb88UXLf",
+  "tags": []
+}
